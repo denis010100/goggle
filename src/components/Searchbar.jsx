@@ -1,10 +1,7 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import searchData from '../data/fake-database'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import {
-    faMagnifyingGlass,
-    faTimesCircle,
-} from '@fortawesome/free-solid-svg-icons'
+import { faMagnifyingGlass, faTimesCircle } from '@fortawesome/free-solid-svg-icons'
 import { useNavigate } from 'react-router-dom'
 
 const SearchBar = () => {
@@ -14,6 +11,17 @@ const SearchBar = () => {
     const [rememberedSuggestions, setRememberedSuggestions] = useState([])
     const [highlightedIndex, setHighlightedIndex] = useState(-1)
     const navigate = useNavigate()
+
+    useEffect(() => {
+        const storedSuggestions = JSON.parse(localStorage.getItem('rememberedSuggestions')) || []
+        setRememberedSuggestions(storedSuggestions)
+    }, [])
+
+    useEffect(() => {
+        if (rememberedSuggestions.length > 0) {
+            localStorage.setItem('rememberedSuggestions', JSON.stringify(rememberedSuggestions))
+        }
+    }, [rememberedSuggestions])
 
     const handleChange = (e) => {
         const value = e.target.value
@@ -80,9 +88,8 @@ const SearchBar = () => {
     }
 
     const handleRemoveRemembered = (title) => {
-        setRememberedSuggestions((prev) =>
-            prev.filter((item) => item.title !== title)
-        )
+        const updatedRememberedSuggestions = rememberedSuggestions.filter((item) => item.title !== title)
+        setRememberedSuggestions(updatedRememberedSuggestions)
     }
 
     const handleClear = () => {
@@ -105,23 +112,23 @@ const SearchBar = () => {
                     onBlur={() => setIsFocused(false)}
                     onKeyDown={handleKeyDown}
                     placeholder="Search..."
-                    className={`transition-all ease-in-out w-full pl-10 pr-10 py-2 border border-gray-300 focus-visible:border-blue-500 focus:outline-none ${
+                    className={`transition-all ease-in-out w-full pl-10 pr-10 py-2 border border-gray-300 focus-visible:border-blue-500 focus:outline-none shadow-sm ${
                         suggestions.length > 0 && isFocused
                             ? 'rounded-t-lg'
                             : 'rounded-[20px]'
-                    }`}
+                    }`}                    
                     autoFocus={true}
                 />
                 {query.length > 0 && (
                     <FontAwesomeIcon
                         icon={faTimesCircle}
-                        className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 cursor-pointer"
+                        className="transition-all ease-in-out absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 cursor-pointer hover:text-gray-600"
                         onMouseDown={handleClear}
                     />
                 )}
             </div>
             {suggestions.length > 0 && isFocused && (
-                <ul className="absolute w-full max-h-80 overflow-y-auto rounded-b-lg border border-t-0 border-gray-300 shadow-lg bg-white mt-1 z-10">
+                <ul className="absolute w-full mt-0 max-h-80 overflow-y-auto rounded-b-lg border border-t-0 border-gray-300 shadow-lg bg-white mt-1 z-10">
                     {suggestions.map((suggestion, index) => (
                         <li
                             key={index}

@@ -8,26 +8,25 @@ import SearchBar from '../components/Searchbar'
 const ITEMS_PER_PAGE = 10
 
 const SearchResults = () => {
-    const { query } = useParams() // Get the search query from the URL
+    const { query } = useParams() 
     const [currentPage, setCurrentPage] = useState(1)
-    const [searchTime, setSearchTime] = useState(0) // State to store the search duration
-    const [results, setResults] = useState([]) // State to store filtered results
-    const [totalResults, setTotalResults] = useState(0) // State to store total results count
+    const [searchTime, setSearchTime] = useState(0) 
+    const [results, setResults] = useState([]) 
+    const [totalResults, setTotalResults] = useState(0) 
 
     useEffect(() => {
-        const startTime = new Date() // Capture start time
+        const startTime = new Date() 
 
-        // Filter searchData to include items that match the query
         const filteredResults = searchData.filter((item) =>
             item.title.toLowerCase().includes(query.toLowerCase())
         )
 
-        const endTime = new Date() // Capture end time
-        setSearchTime(endTime - startTime) // Calculate and set search duration
+        const endTime = new Date() 
+        setSearchTime(endTime - startTime) 
 
-        setResults(filteredResults) // Update the results state
-        setTotalResults(filteredResults.length) // Update the total results count
-    }, [query]) // The effect will run whenever query changes
+        setResults(filteredResults) 
+        setTotalResults(filteredResults.length) 
+    }, [query]) 
 
     const startIndex = (currentPage - 1) * ITEMS_PER_PAGE
     const visibleResults = results.slice(
@@ -40,7 +39,7 @@ const SearchResults = () => {
     }
 
     return (
-        <div className="max-w-3xl mt-10 p-4">
+        <div className="max-w-3xl mt-10 p-4 pl-40">
             <div className="flex flex-row items-start">
                 <Link to="/" className="w-3/12">
                     <img className="w-full" src="../banner.gif" alt="banner" />
