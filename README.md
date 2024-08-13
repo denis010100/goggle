@@ -6,11 +6,11 @@ This project is a React-based search application that allows users to search thr
 
 ## Features
 
-- **Search Bar with Suggestions:** Users can type in the search bar to get suggestions based on the current query. Suggestions are dynamically updated as the user types.
-- **Paginated Search Results:** Results are paginated, with 10 items displayed per page. Users can navigate between pages using "Previous" and "Next" buttons.
-- **Dynamic Search Timing:** The application calculates and displays the time taken to perform the search.
-- **Clickable Banner:** The banner image at the top of the page is a clickable link that redirects users to the homepage.
-- **Remembered Suggestions:** Frequently searched terms are remembered and prioritized in the suggestions list.
+-   **Search Bar with Suggestions:** Users can type in the search bar to get suggestions based on the current query. Suggestions are dynamically updated as the user types.
+-   **Paginated Search Results:** Results are paginated, with 10 items displayed per page. Users can navigate between pages using "Previous" and "Next" buttons.
+-   **Dynamic Search Timing:** The application calculates and displays the time taken to perform the search.
+-   **Clickable Banner:** The banner image at the top of the page is a clickable link that redirects users to the homepage.
+-   **Remembered Suggestions:** Frequently searched terms are remembered and prioritized in the suggestions list.
 
 ## Installation
 
@@ -18,27 +18,27 @@ To run this project locally, follow these steps:
 
 1. **Clone the Repository:**
 
-   ```bash
-   git clone <repository-url>
-   ```
+    ```bash
+    git clone <repository-url>
+    ```
 
 2. **Navigate to the Project Directory:**
 
-   ```bash
-   cd <project-directory>
-   ```
+    ```bash
+    cd <project-directory>
+    ```
 
 3. **Install Dependencies:**
 
-   ```bash
-   npm install
-   ```
+    ```bash
+    npm install
+    ```
 
 4. **Start the Development Server:**
 
-   ```bash
-   npm start
-   ```
+    ```bash
+    npm start
+    ```
 
 5. **Open Your Browser:**
    Navigate to `http://localhost:3000` to view the application.
@@ -61,14 +61,14 @@ To see the most comprehensive results and test the functionality thoroughly, use
 
 ## Project Structure
 
-- **`/src/components/SearchBar.js`** - Contains the Search Bar component with auto-suggestions and search handling logic.
-- **`/src/pages/SearchResults.js`** - Displays search results, including pagination and search timing.
-- **`/src/data/fake-database.js`** - A mock database containing items to be searched.
-- **`/src/App.js`** - Main application entry point and routing configuration.
+-   **`/src/components/SearchBar.js`** - Contains the Search Bar component with auto-suggestions and search handling logic.
+-   **`/src/pages/SearchResults.js`** - Displays search results, including pagination and search timing.
+-   **`/src/data/fake-database.js`** - A mock database containing items to be searched.
+-   **`/src/App.js`** - Main application entry point and routing configuration.
 
 ## Technologies Used
 
-- **React:** JavaScript library for building user interfaces.
-- **React Router:** For handling navigation and routing.
-- **Font Awesome:** For icons in the UI.
-- **Tailwind CSS:** For styling the components.
+-   **React:** JavaScript library for building user interfaces.
+-   **React Router:** For handling navigation and routing.
+-   **Font Awesome:** For icons in the UI.
+-   **Tailwind CSS:** For styling the components.

@@ -1,7 +1,7 @@
-import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Search from './pages/search';
-import SearchResults from './pages/search-results';
+import React from 'react'
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
+import Search from './pages/search'
+import SearchResults from './pages/search-results'
 
 const App = () => {
     return (
@@ -13,7 +13,7 @@ const App = () => {
                 </Routes>
             </div>
         </Router>
-    );
-};
+    )
+}
 
-export default App;
+export default App

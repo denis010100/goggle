@@ -1,80 +1,94 @@
-import React, { useState } from 'react';
-import searchData from '../data/fake-database';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faMagnifyingGlass, faTimesCircle } from '@fortawesome/free-solid-svg-icons';
-import { useNavigate } from 'react-router-dom';
+import React, { useState } from 'react'
+import searchData from '../data/fake-database'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import {
+    faMagnifyingGlass,
+    faTimesCircle,
+} from '@fortawesome/free-solid-svg-icons'
+import { useNavigate } from 'react-router-dom'
 
 const SearchBar = () => {
-    const [query, setQuery] = useState('');
-    const [suggestions, setSuggestions] = useState([]);
-    const [isFocused, setIsFocused] = useState(false);
-    const [rememberedSuggestions, setRememberedSuggestions] = useState([]);
-    const [highlightedIndex, setHighlightedIndex] = useState(-1);
-    const navigate = useNavigate();
+    const [query, setQuery] = useState('')
+    const [suggestions, setSuggestions] = useState([])
+    const [isFocused, setIsFocused] = useState(false)
+    const [rememberedSuggestions, setRememberedSuggestions] = useState([])
+    const [highlightedIndex, setHighlightedIndex] = useState(-1)
+    const navigate = useNavigate()
 
     const handleChange = (e) => {
-        const value = e.target.value;
-        setQuery(value);
-        setHighlightedIndex(-1); 
+        const value = e.target.value
+        setQuery(value)
+        setHighlightedIndex(-1)
 
         if (value.length > 0) {
-            let filteredSuggestions = searchData.filter(item =>
+            let filteredSuggestions = searchData.filter((item) =>
                 item.title.toLowerCase().startsWith(value.toLowerCase())
-            );
+            )
 
             const prioritizedSuggestions = [
-                ...rememberedSuggestions.filter(item =>
+                ...rememberedSuggestions.filter((item) =>
                     item.title.toLowerCase().startsWith(value.toLowerCase())
                 ),
-                ...filteredSuggestions.filter(item =>
-                    !rememberedSuggestions.some(remembered => remembered.title === item.title)
-                )
-            ];
+                ...filteredSuggestions.filter(
+                    (item) =>
+                        !rememberedSuggestions.some(
+                            (remembered) => remembered.title === item.title
+                        )
+                ),
+            ]
 
-            setSuggestions(prioritizedSuggestions);
+            setSuggestions(prioritizedSuggestions)
         } else {
-            setSuggestions([]);
+            setSuggestions([])
         }
-    };
+    }
 
     const handleSuggestionClick = (suggestion) => {
-        navigate(`/search/${suggestion.title.toLowerCase()}`);
-        setQuery(''); 
-        setSuggestions([]); 
+        navigate(`/search/${suggestion.title.toLowerCase()}`)
+        setQuery('')
+        setSuggestions([])
 
-        if (!rememberedSuggestions.some(item => item.title === suggestion.title)) {
-            setRememberedSuggestions(prev => [...prev, suggestion]);
+        if (
+            !rememberedSuggestions.some(
+                (item) => item.title === suggestion.title
+            )
+        ) {
+            setRememberedSuggestions((prev) => [...prev, suggestion])
         }
-    };
+    }
 
     const handleKeyDown = (e) => {
         if (e.key === 'ArrowDown') {
-            setHighlightedIndex(prevIndex => (prevIndex + 1) % suggestions.length);
+            setHighlightedIndex(
+                (prevIndex) => (prevIndex + 1) % suggestions.length
+            )
         } else if (e.key === 'ArrowUp') {
-            setHighlightedIndex(prevIndex => 
+            setHighlightedIndex((prevIndex) =>
                 prevIndex === 0 ? suggestions.length - 1 : prevIndex - 1
-            );
+            )
         } else if (e.key === 'Enter') {
-            e.preventDefault(); 
+            e.preventDefault()
 
             if (highlightedIndex >= 0) {
-                handleSuggestionClick(suggestions[highlightedIndex]);
+                handleSuggestionClick(suggestions[highlightedIndex])
             } else if (query.trim()) {
-                navigate(`/search/${query.trim().toLowerCase()}`);
+                navigate(`/search/${query.trim().toLowerCase()}`)
             }
 
-            setQuery('');
+            setQuery('')
         }
-    };
+    }
 
     const handleRemoveRemembered = (title) => {
-        setRememberedSuggestions(prev => prev.filter(item => item.title !== title));
-    };
+        setRememberedSuggestions((prev) =>
+            prev.filter((item) => item.title !== title)
+        )
+    }
 
     const handleClear = () => {
-        setQuery(''); 
-        setSuggestions([]);
-    };
+        setQuery('')
+        setSuggestions([])
+    }
 
     return (
         <div className="relative w-72 mt-4 mx-auto">
@@ -92,7 +106,9 @@ const SearchBar = () => {
                     onKeyDown={handleKeyDown}
                     placeholder="Search..."
                     className={`transition-all ease-in-out w-full pl-10 pr-10 py-2 border border-gray-300 focus-visible:border-blue-500 focus:outline-none ${
-                        suggestions.length > 0 && isFocused ? 'rounded-t-lg' : 'rounded-[20px]'
+                        suggestions.length > 0 && isFocused
+                            ? 'rounded-t-lg'
+                            : 'rounded-[20px]'
                     }`}
                     autoFocus={true}
                 />
@@ -109,14 +125,18 @@ const SearchBar = () => {
                     {suggestions.map((suggestion, index) => (
                         <li
                             key={index}
-                            onMouseDown={() => handleSuggestionClick(suggestion)}
+                            onMouseDown={() =>
+                                handleSuggestionClick(suggestion)
+                            }
                             className={`cursor-pointer p-2 flex items-center ${
-                                rememberedSuggestions.some(item => item.title === suggestion.title) 
-                                    ? 'text-purple-600' 
+                                rememberedSuggestions.some(
+                                    (item) => item.title === suggestion.title
+                                )
+                                    ? 'text-purple-600'
                                     : ''
                             } ${
-                                index === highlightedIndex 
-                                    ? 'bg-gray-200' 
+                                index === highlightedIndex
+                                    ? 'bg-gray-200'
                                     : 'hover:bg-gray-100'
                             }`}
                         >
@@ -125,13 +145,15 @@ const SearchBar = () => {
                                 className="mr-2 text-gray-400"
                             />
                             <strong>{suggestion.title}</strong>
-                            {rememberedSuggestions.some(item => item.title === suggestion.title) && (
+                            {rememberedSuggestions.some(
+                                (item) => item.title === suggestion.title
+                            ) && (
                                 <FontAwesomeIcon
                                     icon={faTimesCircle}
                                     className="ml-auto text-gray-400 hover:text-red-500"
                                     onMouseDown={(e) => {
-                                        e.stopPropagation();
-                                        handleRemoveRemembered(suggestion.title);
+                                        e.stopPropagation()
+                                        handleRemoveRemembered(suggestion.title)
                                     }}
                                 />
                             )}
@@ -140,7 +162,7 @@ const SearchBar = () => {
                 </ul>
             )}
         </div>
-    );
-};
+    )
+}
 
-export default SearchBar;
+export default SearchBar
